@@ -1,0 +1,25 @@
+{
+  "projectPaths": [
+    "/Users/shanelabounty/Documents/Claude/Projects/alongside"
+  ],
+  "skills": [
+    {
+      "name": "Code Review",
+      "invocation": "/code-review",
+      "args": "medium",
+      "cwd": "/Users/shanelabounty/Documents/Claude/Projects/alongside"
+    },
+    {
+      "name": "Security Review",
+      "invocation": "/security-review",
+      "args": "",
+      "cwd": "/Users/shanelabounty/Documents/Claude/Projects/alongside"
+    },
+    {
+      "name": "Simplify Diff",
+      "invocation": "/simplify",
+      "args": "",
+      "cwd": "/Users/shanelabounty/Documents/Claude/Projects/alongside"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "claude-dashboard",
+  "version": "1.0.0",
+  "description": "A personal command-center dashboard for Claude Code: daily activity digest, one-click skills and subagent automations, and a browsable log of every Claude Code session on this machine.",
+  "private": true,
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.22.2"
+  }
+}

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Dashboard</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <nav class="rail">
+    <div class="rail-brand">
+      <div class="mark">Claude Dashboard</div>
+      <div class="sub">local command center</div>
+    </div>
+    <div class="rail-nav">
+      <button class="rail-btn active" data-view="today"><span class="icon">◆</span> Today</button>
+      <button class="rail-btn" data-view="skills"><span class="icon">▸</span> Skills</button>
+      <button class="rail-btn" data-view="automations"><span class="icon">▹</span> Automations</button>
+      <button class="rail-btn" data-view="sessions"><span class="icon">≡</span> Sessions</button>
+    </div>
+    <div class="rail-footer">
+      <span class="dot"></span>server on :<span id="portLabel">--</span>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <!-- ============================== TODAY ============================== -->
+    <section class="view active" id="view-today">
+      <div class="view-header">
+        <div>
+          <h1>Today</h1>
+          <div class="desc">Git activity and Claude Code sessions, combined into one digest.</div>
+        </div>
+        <div class="report-toolbar">
+          <input type="date" id="reportDate">
+          <button class="btn" id="reportTodayBtn">Today</button>
+        </div>
+      </div>
+
+      <div id="reportRoot"><div class="loading">Loading...</div></div>
+
+      <div class="group-heading">Configured projects</div>
+      <div class="card card-pad">
+        <div class="path-list" id="pathList"></div>
+        <form class="add-path-form" id="addPathForm">
+          <input type="text" id="addPathInput" placeholder="/absolute/path/to/project">
+          <button class="btn" type="submit">Add path</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============================== SKILLS ============================== -->
+    <section class="view" id="view-skills">
+      <div class="view-header">
+        <div>
+          <h1>Skills</h1>
+          <div class="desc">One-click <code>claude -p</code> skill invocations, defined in <code>config.json</code>.</div>
+        </div>
+      </div>
+      <div id="skillsRoot"><div class="loading">Loading...</div></div>
+    </section>
+
+    <!-- ============================== AUTOMATIONS ============================== -->
+    <section class="view" id="view-automations">
+      <div class="view-header">
+        <div>
+          <h1>Automations</h1>
+          <div class="desc">Subagent personas discovered from <code>.claude/agents/*.md</code> across configured projects.</div>
+        </div>
+      </div>
+      <div id="automationsRoot"><div class="loading">Loading...</div></div>
+    </section>
+
+    <!-- ============================== SESSIONS ============================== -->
+    <section class="view" id="view-sessions">
+      <div class="view-header">
+        <div>
+          <h1>Sessions</h1>
+          <div class="desc">Every Claude Code session on this machine, newest first.</div>
+        </div>
+      </div>
+      <div id="sessionsListRoot"><div class="loading">Loading...</div></div>
+    </section>
+
+    <!-- ============================== SESSION DETAIL ============================== -->
+    <section class="view" id="view-session-detail">
+      <div class="detail-header">
+        <button class="btn btn-sm" id="backToSessions">&larr; Back</button>
+      </div>
+      <div id="sessionDetailRoot"><div class="loading">Loading...</div></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============================== RUN CONSOLE ============================== -->
+<div class="console" id="console">
+  <div class="console-bar" id="consoleBar">
+    <div class="title"><span class="status-dot" id="consoleStatusDot"></span> Run console</div>
+    <div class="console-actions">
+      <button class="btn btn-ghost btn-sm" id="consoleClearBtn" title="Clear log">Clear</button>
+    </div>
+  </div>
+  <div class="console-body" id="consoleBody"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
