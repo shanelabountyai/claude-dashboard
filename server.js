@@ -256,6 +256,6 @@ app.get('/api/sessions/:slug/:sessionId', (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '127.0.0.1', () => {
   console.log(`Claude Dashboard running at http://localhost:${PORT}`);
 });
