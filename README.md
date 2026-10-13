@@ -128,7 +128,10 @@ Automations need no config — they're auto-discovered by scanning
 - **No auth/access control.** This binds to localhost only and assumes
   single-user, trusted-machine use — there's no login, and anyone with
   local network access to the port (if you tunnel or forward it) could hit
-  the API. Don't expose this port publicly.
+  the API. Don't expose this port publicly. The API refuses cross-site
+  browser requests and any `Host` other than `localhost`/`127.0.0.1`, so
+  other web pages open in your browser cannot drive it (SEC-02). If you
+  tunnel or forward the port under another hostname, the API returns 403.
 - **Daily report's git activity only covers configured `projectPaths`** that
   are actual git repos; the session-activity half of the digest includes
   *any* directory a Claude Code session ran in that day, configured or not

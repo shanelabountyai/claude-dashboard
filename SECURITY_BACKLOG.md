@@ -21,3 +21,7 @@ Source: `~/Projects/saas foundation/audit/claude-dashboard.md` (full scorecard K
 - **SEC-02 covered** by SEC-01, since the API is no longer reachable from the network.
 - **OPS-01 resolved:** the README's "binds to localhost only" claim is now accurate.
 - Not done: a token check on the run routes (defense in depth). Add it only if the tool ever runs on a shared machine.
+
+### Status (2026-10-13)
+- **SEC-02 reopened and fixed.** "Covered by SEC-01" was wrong. Binding to 127.0.0.1 keeps the LAN out, but any web page open in a browser on this machine can still reach 127.0.0.1. `/api/skills/run` and `/api/agents/run` are GETs, so an `<img>` or `EventSource` on any site could start a `claude -p` run with an attacker-chosen `projectPath` and task. DNS rebinding could also read responses. Fix: a `/api` middleware in `server.js` returns 403 when `Sec-Fetch-Site` is not `same-origin`/`none`, when `Origin` is not this host, or when `Host` is not `localhost`/`127.0.0.1`. Terminal `curl` still works. Test: `test/cross-site.test.js` (`npm test`, built-in `node --test`).
+- Still not done: a token on the run routes, and a check of `projectPath` against the configured paths in `/api/agents/run`. Neither is needed while only the local user can reach the API.

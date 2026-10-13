@@ -13,6 +13,27 @@ const PORT = process.env.PORT || 4173;
 const app = express();
 
 app.use(express.json());
+
+// SEC-02: binding to 127.0.0.1 keeps the LAN out, but any web page in a browser on
+// this machine can still reach 127.0.0.1, and the run routes are plain GETs. Only the
+// dashboard's own page (or a terminal, which sends none of these headers) may call
+// the API: refuse cross-site fetches, foreign Origins, and a foreign Host (DNS
+// rebinding, where evil.test resolves to 127.0.0.1).
+const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1']);
+app.use('/api', (req, res, next) => {
+  const site = req.get('sec-fetch-site');
+  const origin = req.get('origin');
+  let hostname = '';
+  try {
+    hostname = new URL(`http://${req.get('host')}`).hostname;
+  } catch {}
+  const foreign =
+    !LOCAL_HOSTNAMES.has(hostname) ||
+    (site && site !== 'same-origin' && site !== 'none') ||
+    (origin && origin !== `http://${req.get('host')}`);
+  if (foreign) return res.status(403).json({ error: 'Cross-site requests are not allowed.' });
+  next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ---------------------------------------------------------------------------
