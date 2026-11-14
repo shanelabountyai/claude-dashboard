@@ -14,6 +14,20 @@ const app = express();
 
 app.use(express.json());
 
+// K7: the SEC-02 check below cannot see clickjacking. A foreign page can frame the
+// dashboard, and the framed page's own API calls are same-origin, so a lured click
+// could start a run. Refuse framing everywhere, and set nosniff and no-referrer.
+// No HSTS: the server speaks plain HTTP on 127.0.0.1, where browsers ignore it.
+app.use((req, res, next) => {
+  res.set({
+    'X-Frame-Options': 'DENY',
+    'Content-Security-Policy': "frame-ancestors 'none'",
+    'X-Content-Type-Options': 'nosniff',
+    'Referrer-Policy': 'no-referrer'
+  });
+  next();
+});
+
 // SEC-02: binding to 127.0.0.1 keeps the LAN out, but any web page in a browser on
 // this machine can still reach 127.0.0.1, and the run routes are plain GETs. Only the
 // dashboard's own page (or a terminal, which sends none of these headers) may call
